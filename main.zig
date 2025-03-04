@@ -16,11 +16,13 @@ pub fn main() !void {
     consol.print("\n You chose : {s}\n", .{player_choice});
     //Add function about that in texts.zig
 
-    //texts.computerChoice(&computer_choice);
+    texts.computerChoice(&computer_choice);
 
-    const GameResult: game.GameIssue = game.gameIssueChecker(player_choice, computer_choice);
+    consol.print("\n CURRENT PLAYER CHOICE : {s}\n", .{player_choice});
 
-    texts.gameResults(GameResult);
+    //const GameResult: game.GameIssue = game.gameIssueChecker(player_choice, computer_choice);
+
+    //texts.gameResults(GameResult);
 
     consol.Cursor.on(); //Must be repasted
 }
