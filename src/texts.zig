@@ -23,11 +23,29 @@ pub fn computerChoice(computer_choice: *const []const u8) void {
     csl.print("\n Camputer chose : {s}\n", .{computer_choice.*});
 }
 
+pub fn playerChoice(player_choice: *const []const u8) void {
+    const str = choiceMeaning(player_choice.*);
+    csl.clear();
+    csl.wait(1);
+    csl.print("\n You chose {s}\n", .{str});
+}
+
+pub fn choiceMeaning(player_input: []const u8) []const u8 {
+    const first_char: u8 = player_input[0];
+
+    return if (first_char == 'R') "ROCK" else if (first_char == 'P') "PAPER" else "SCISSORS";
+}
+
+pub fn charToUpper(c: *u8) void {
+    c.* = if (c.* >= 'a' and c.* <= 'z') c.* - ('a' - 'A') else c.*;
+}
+
 pub fn invalidSymbol() void {
     csl.print("\n   Symbol incorrect \n", .{});
 }
 
 pub fn gameResults(gameIssue: gi.GameIssue) void {
+    csl.wait(2);
     switch (gameIssue) {
         gi.GameIssue.DRAW => csl.print("\n It's a Draw ! \n", .{}),
         gi.GameIssue.LOSE => csl.print("\n Sorry, You LOSE ! \n", .{}),

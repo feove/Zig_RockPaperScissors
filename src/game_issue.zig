@@ -19,13 +19,24 @@ pub fn gameIssueChecker(player_choice: []const u8, computer_choice: []const u8) 
     return GameIssue.LOSE;
 }
 
+const expect = csl.std.testing.expect;
+
 pub fn isValidSymbol(player_input: []const u8) bool {
-    for (sm.Symbols_str) |symbol| {
-        if (csl.std.mem.eql(u8, player_input, symbol)) {
-            return true;
-        }
-    }
-    return false;
+    var first_char: u8 = player_input[0];
+
+    txt.charToUpper(&first_char);
+
+    const playerInputIsValid: bool = switch (first_char) {
+        'R' => true,
+        'S' => true,
+        'P' => true,
+        'r' => true,
+        's' => true,
+        'p' => true,
+        else => false,
+    };
+
+    return playerInputIsValid;
 }
 
 pub fn StringToSymbolType(str_symbol: []const u8) sm.Symbols {
@@ -33,6 +44,9 @@ pub fn StringToSymbolType(str_symbol: []const u8) sm.Symbols {
         'R' => return sm.Symbols.ROCK,
         'S' => return sm.Symbols.SCISSORS,
         'P' => return sm.Symbols.PAPER,
+        'r' => return sm.Symbols.ROCK,
+        's' => return sm.Symbols.SCISSORS,
+        'p' => return sm.Symbols.PAPER,
         else => unreachable,
     }
 }
