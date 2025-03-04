@@ -33,7 +33,15 @@ pub fn playerChoice(player_choice: *const []const u8) void {
 pub fn choiceMeaning(player_input: []const u8) []const u8 {
     const first_char: u8 = player_input[0];
 
-    return if (first_char == 'R') "ROCK" else if (first_char == 'P') "PAPER" else "SCISSORS";
+    switch (first_char) {
+        'R' => return "ROCK",
+        'S' => return "SCISSORS",
+        'P' => return "PAPER",
+        'r' => return "ROCK",
+        's' => return "SCISSORS",
+        'p' => return "PAPER",
+        else => unreachable,
+    }
 }
 
 pub fn charToUpper(c: *u8) void {
