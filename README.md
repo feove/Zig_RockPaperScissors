@@ -1,8 +1,16 @@
-## Zig Version :
+# 🪨📄✂️ Rock, Paper, Scissors – Zig Edition  
 
-`$ zig version`
-`$ 0.13.0`
+Welcome to the **Rock, Paper, Scissors** project, a simple yet fun command-line game built using **Zig**.  
+This project serves as an introduction to Zig and its basic features while implementing a classic game.  
 
-## Run:
+---
 
-`$ zig run main.zig`
+### ✅ Requirements  
+
+- **Zig** (Version **0.13.0**)  
+
+## Run 
+
+```sh
+$ zig run main.zig
+```
