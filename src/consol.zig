@@ -22,9 +22,9 @@ pub fn wait(time: u32) void {
 }
 
 const stdin = std.io.getStdIn().reader();
-const stdout = std.io.getStdOut().writer();
+pub const stdout = std.io.getStdOut().writer();
 
-pub fn reader() ![]const u8 {
+pub fn reader(allocator: std.mem.Allocator) ![]const u8 {
     Cursor.on();
 
     print("\n Write a symbol:  ", .{});
@@ -34,5 +34,5 @@ pub fn reader() ![]const u8 {
 
     Cursor.off();
 
-    return input;
+    return try allocator.dupe(u8, input);
 }
