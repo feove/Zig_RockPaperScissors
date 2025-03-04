@@ -1,8 +1,8 @@
-##Zig Version :
+## Zig Version :
 
 `$ zig version`
 `$ 0.13.0`
 
-##Run:
+## Run:
 
 `$ zig run main.zig`
