@@ -12,18 +12,17 @@ pub fn main() !void {
 
     const computer_choice: []const u8 = computer.computer_choice();
 
-    // Use allocator when reading input
-    const player_input: []const u8 = try consol.reader(allocator);
+    var player_input: []const u8 = try consol.reader(allocator);
 
-    //try game.symbolResent(&player_input);
+    try game.symbolResent(&player_input, allocator);
 
     texts.computerChoice(&computer_choice);
 
     //consol.print("\n CURRENT PLAYER CHOICE : {s}\n", .{player_});
-    //const GameResult: game.GameIssue = game.gameIssueChecker(player_choice, computer_choice);
+    const GameResult: game.GameIssue = game.gameIssueChecker(player_input, computer_choice);
 
-    //texts.gameResults(GameResult);
-    consol.print("\n Player Input: {s}\n", .{player_input});
+    texts.gameResults(GameResult);
+    //consol.print("\n Player Input: {s}\n", .{player_input});
 
     allocator.free(player_input);
     consol.Cursor.on(); //Must be repasted

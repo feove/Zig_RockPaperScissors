@@ -5,8 +5,6 @@ const txt = @import("texts.zig");
 pub const GameIssue = enum { LOSE, WIN, DRAW };
 
 pub fn gameIssueChecker(player_choice: []const u8, computer_choice: []const u8) GameIssue {
-    csl.print("THE FINAL PLAYER CHOICE {s} \n", .{player_choice});
-
     const player_symbol: sm.Symbols = StringToSymbolType(player_choice);
     const computer_symbol: sm.Symbols = StringToSymbolType(computer_choice);
 
@@ -39,11 +37,12 @@ pub fn StringToSymbolType(str_symbol: []const u8) sm.Symbols {
     }
 }
 
-pub fn symbolResent(player_input: *[]const u8) !void {
+pub fn symbolResent(player_input: *[]const u8, allocator: csl.std.mem.Allocator) !void {
     while (!isValidSymbol(player_input.*)) {
         txt.invalidSymbol();
-        player_input.* = try csl.reader();
-    }
 
-    //csl.clear();
+        allocator.free(player_input.*);
+
+        player_input.* = try csl.reader(allocator);
+    }
 }
