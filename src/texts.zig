@@ -22,16 +22,20 @@ fn setMarginText() void {
     csl.print("\n ", .{});
 }
 
-fn arrowAnimation(arrowLength: u8) void {
+fn arrowAnimation(arrowLength: u8, timePerLine: f64, timeAtTheEnd: f64) void {
     var i: u8 = 0;
 
     setMarginText();
     while (i < arrowLength) : (i += 1) {
-        csl.print("━", .{});
-        csl.wait(0.1);
+        csl.print("-", .{});
+        csl.wait(timePerLine);
     }
     csl.print(">", .{});
-    csl.wait(0.3);
+    csl.wait(timeAtTheEnd);
+}
+
+fn arrowAnimationDefault(arrowLength: u8) void {
+    arrowAnimation(arrowLength, 0.1, 0.3);
 }
 
 fn lineAnimation(lineLength: u8) void {
@@ -40,7 +44,7 @@ fn lineAnimation(lineLength: u8) void {
     setMarginText();
     //csl.print("┃", .{});
     while (i < lineLength) : (i += 1) {
-        csl.print("━", .{});
+        csl.print("-", .{});
         csl.wait(0.05);
     }
     //csl.print("┃", .{});
@@ -48,19 +52,36 @@ fn lineAnimation(lineLength: u8) void {
     csl.wait(0.3);
 }
 
+pub fn loadingAnimation(loadingLength: u8, lastConsolContent: []const u8) void {
+    var i: u8 = 0;
+    while (i < loadingLength) : (i += 1) {
+        csl.clear();
+        csl.print("{s}", .{lastConsolContent});
+        csl.print(" " * i, .{});
+        csl.print("█", .{});
+        csl.wait(0.05);
+    }
+}
+
 pub fn computerChoice(computer_choice: *const []const u8) void {
-    arrowAnimation(4);
+    const lastConsolContent: []const u8 = "\n ---->\n Camputer chose : ";
+    csl.clear();
+    arrowAnimationDefault(4);
     csl.print(" Camputer chose : ", .{});
-    csl.wait(0.5);
+    loadingAnimation(@intCast(computer_choice.*.len), lastConsolContent);
+
+    //Showing result string content whithout animations
+    csl.clear();
+    arrowAnimation(4, 0, 0);
+    csl.print(" Camputer chose : ", .{});
     csl.print("{s}\n", .{computer_choice.*});
 }
 
 pub fn playerChoice(player_choice: *const []const u8) void {
     const str = choiceMeaning(player_choice.*);
-    csl.clear();
     csl.wait(0.5);
-    arrowAnimation(4);
-    csl.print(" You chose {s}\n", .{str});
+    arrowAnimationDefault(4);
+    csl.print(" You have chosen {s}\n", .{str});
     csl.wait(1);
 }
 
@@ -92,7 +113,7 @@ pub fn invalidSymbol() void {
 
 pub fn gameResults(gameIssue: gi.GameIssue) void {
     lineAnimation(30);
-    arrowAnimation(2);
+    arrowAnimationDefault(2);
     switch (gameIssue) {
         gi.GameIssue.DRAW => csl.print(" It's a Draw ! \n", .{}),
         gi.GameIssue.LOSE => csl.print(" Sorry, You LOSE ! \n", .{}),
