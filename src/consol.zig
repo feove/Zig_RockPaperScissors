@@ -17,8 +17,8 @@ pub fn clear() void {
     stdout.writeAll("\x1b[2J\x1b[H") catch {};
 }
 
-pub fn wait(time: u32) void {
-    sleep(time * 1_000_000_000);
+pub fn wait(time: f64) void {
+    sleep(@as(u64, @intFromFloat(time * 1_000_000_000.0)));
 }
 
 const stdin = std.io.getStdIn().reader();

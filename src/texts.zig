@@ -18,16 +18,50 @@ pub fn intro() void {
     csl.wait(1);
 }
 
+fn setMarginText() void {
+    csl.print("\n ", .{});
+}
+
+fn arrowAnimation(arrowLength: u8) void {
+    var i: u8 = 0;
+
+    setMarginText();
+    while (i < arrowLength) : (i += 1) {
+        csl.print("━", .{});
+        csl.wait(0.1);
+    }
+    csl.print(">", .{});
+    csl.wait(0.3);
+}
+
+fn lineAnimation(lineLength: u8) void {
+    var i: u8 = 0;
+
+    setMarginText();
+    //csl.print("┃", .{});
+    while (i < lineLength) : (i += 1) {
+        csl.print("━", .{});
+        csl.wait(0.05);
+    }
+    //csl.print("┃", .{});
+    csl.print("\n", .{});
+    csl.wait(0.3);
+}
+
 pub fn computerChoice(computer_choice: *const []const u8) void {
-    csl.wait(1);
-    csl.print("\n Camputer chose : {s}\n", .{computer_choice.*});
+    arrowAnimation(4);
+    csl.print(" Camputer chose : ", .{});
+    csl.wait(0.5);
+    csl.print("{s}\n", .{computer_choice.*});
 }
 
 pub fn playerChoice(player_choice: *const []const u8) void {
     const str = choiceMeaning(player_choice.*);
     csl.clear();
+    csl.wait(0.5);
+    arrowAnimation(4);
+    csl.print(" You chose {s}\n", .{str});
     csl.wait(1);
-    csl.print("\n You chose {s}\n", .{str});
 }
 
 pub fn choiceMeaning(player_input: []const u8) []const u8 {
@@ -44,6 +78,10 @@ pub fn choiceMeaning(player_input: []const u8) []const u8 {
     }
 }
 
+fn lineJump() void {
+    csl.print("\n");
+}
+
 pub fn charToUpper(c: *u8) void {
     c.* = if (c.* >= 'a' and c.* <= 'z') c.* - ('a' - 'A') else c.*;
 }
@@ -53,10 +91,12 @@ pub fn invalidSymbol() void {
 }
 
 pub fn gameResults(gameIssue: gi.GameIssue) void {
-    csl.wait(2);
+    lineAnimation(30);
+    arrowAnimation(2);
     switch (gameIssue) {
-        gi.GameIssue.DRAW => csl.print("\n It's a Draw ! \n", .{}),
-        gi.GameIssue.LOSE => csl.print("\n Sorry, You LOSE ! \n", .{}),
-        gi.GameIssue.WIN => csl.print("\n Congratulations ! You WON ! \n", .{}),
+        gi.GameIssue.DRAW => csl.print(" It's a Draw ! \n", .{}),
+        gi.GameIssue.LOSE => csl.print(" Sorry, You LOSE ! \n", .{}),
+        gi.GameIssue.WIN => csl.print(" Congratulations ! You WON ! \n", .{}),
     }
+    //lineAnimation(20);
 }
