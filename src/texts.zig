@@ -6,9 +6,11 @@ pub fn intro() void {
     csl.Cursor.off();
     csl.clear();
     csl.wait(1);
-    csl.print("\n -> Ready To Play ?", .{});
+    setMarginText();
+    arrowAnimationDefault(4);
+    csl.print(" Ready To Play ?", .{});
 
-    csl.wait(2);
+    csl.wait(1.5);
     csl.clear();
     csl.wait(1);
     csl.print("\n -> Choose a symbol displayed :\n", .{});
@@ -38,23 +40,9 @@ fn arrowAnimationDefault(arrowLength: u8) void {
     arrowAnimation(arrowLength, 0.1, 0.3);
 }
 
-fn lineAnimation(lineLength: u8) void {
-    var i: u8 = 0;
-
-    setMarginText();
-    //csl.print("┃", .{});
-    while (i < lineLength) : (i += 1) {
-        csl.print("-", .{});
-        csl.wait(0.05);
-    }
-    //csl.print("┃", .{});
-    csl.print("\n", .{});
-    csl.wait(0.3);
-}
-
 pub fn loadingAnimation(loadingLength: u8, lastConsolContent: []const u8) void {
     var i: u8 = 0;
-    while (i < loadingLength + 2) : (i += 1) {
+    while (i < loadingLength + 1) : (i += 1) {
         csl.clear();
         csl.print("{s}", .{lastConsolContent});
 
@@ -81,6 +69,7 @@ pub fn computerChoice(computer_choice: *const []const u8) void {
     arrowAnimation(4, 0, 0);
     csl.print(" Camputer chose : ", .{});
     csl.print("{s}\n", .{computer_choice.*});
+    csl.wait(1);
 }
 
 pub fn playerChoice(player_choice: *const []const u8) void {
@@ -117,8 +106,26 @@ pub fn invalidSymbol() void {
     csl.print("\n   Symbol incorrect \n", .{});
 }
 
+fn lineAnimation() void {
+    var i: u8 = 1;
+
+    setMarginText();
+
+    var s = [_]u8{ '[', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ']' };
+    //csl.print("┃", .{});
+    while (i < 15) : (i += 1) {
+        csl.clear();
+        csl.print("{s}", .{s});
+        csl.wait(0.05);
+        s[i] = '#';
+    }
+    //csl.print("┃", .{});
+    csl.print("\n", .{});
+    csl.wait(0.3);
+}
+
 pub fn gameResults(gameIssue: gi.GameIssue) void {
-    lineAnimation(30);
+    lineAnimation();
     arrowAnimationDefault(2);
     switch (gameIssue) {
         gi.GameIssue.DRAW => csl.print(" It's a Draw ! \n", .{}),
