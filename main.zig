@@ -20,8 +20,6 @@ pub fn main() !void {
 
     texts.computerChoice(&computer_choice);
 
-    texts.choiceChoice(&player_choice, &computer_choice);
-
     const GameResult: game.GameIssue = game.gameIssueChecker(player_choice, computer_choice);
 
     texts.gameResults(GameResult);

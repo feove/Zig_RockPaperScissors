@@ -54,17 +54,23 @@ fn lineAnimation(lineLength: u8) void {
 
 pub fn loadingAnimation(loadingLength: u8, lastConsolContent: []const u8) void {
     var i: u8 = 0;
-    while (i < loadingLength) : (i += 1) {
+    while (i < loadingLength + 2) : (i += 1) {
         csl.clear();
         csl.print("{s}", .{lastConsolContent});
-        csl.print(" " * i, .{});
+
+        var j: u8 = 0;
+        while (j <= i) : (j += 1) {
+            if (j != 0)
+                csl.print(" ", .{});
+        }
         csl.print("█", .{});
-        csl.wait(0.05);
+        csl.wait(0.2);
     }
+    csl.wait(0.5);
 }
 
 pub fn computerChoice(computer_choice: *const []const u8) void {
-    const lastConsolContent: []const u8 = "\n ---->\n Camputer chose : ";
+    const lastConsolContent: []const u8 = "\n ----> Camputer chose : ";
     csl.clear();
     arrowAnimationDefault(4);
     csl.print(" Camputer chose : ", .{});
